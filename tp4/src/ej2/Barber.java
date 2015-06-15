@@ -1,4 +1,4 @@
-package com.company.ej2;
+package ej2;
 
 public class Barber extends Thread {
 }

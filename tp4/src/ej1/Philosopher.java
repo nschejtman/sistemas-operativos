@@ -1,4 +1,4 @@
-package com.company.ej1;
+package ej1;
 
 public class Philosopher extends Thread {
     final String name;

@@ -1,11 +1,11 @@
-package com.company.ej2;
+package ej2;
 
 public class BarberShop {
-    private final Customer[] waiting;
-    private Customer cutting;
+    private final ej2.Customer[] waiting;
+    private ej2.Customer cutting;
 
     public BarberShop(int maxWaiting) {
-        waiting = new Customer[maxWaiting];
+        waiting = new ej2.Customer[maxWaiting];
     }
 
     public void enter(Customer customer) {

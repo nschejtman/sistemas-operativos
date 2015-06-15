@@ -1,4 +1,4 @@
-package com.company.ej1;
+package ej1;
 
 import java.util.concurrent.Semaphore;
 
