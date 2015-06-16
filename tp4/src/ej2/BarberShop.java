@@ -1,41 +1,62 @@
 package ej2;
 
+
+import java.util.Random;
+
 public class BarberShop {
-    private final ej2.Customer[] waiting;
-    private ej2.Customer cutting;
+    final int MAX_CAPACITY;
+    int waitingQty;
+    Customer readyToBeAttended;
 
-    public BarberShop(int maxWaiting) {
-        waiting = new ej2.Customer[maxWaiting];
+    public BarberShop(int max_capacity) {
+        MAX_CAPACITY = max_capacity;
+        waitingQty = 0;
+        readyToBeAttended = null;
     }
 
-    public void enter(Customer customer) {
-        if (!fullCapacity()) {
-            int i = 0;
-
-            while (waiting[i] != null)
-                i++;
-
-            waiting[i] = customer;
-        }
+    public boolean isFull() {
+        return waitingQty >= MAX_CAPACITY;
     }
 
-    public void cut() {
-        int i = 0;
-
-        while (waiting[i] == null)
-            i++;
-
-        final Customer customer = waiting[i];
-        waiting[i] = null;
-    }
-
-    private boolean fullCapacity() {
-        for (Customer customer : waiting) {
-            if (customer == null) {
-                return false;
+    public synchronized void arriveCustomer(Customer customer) {
+        if (!isFull()){
+            waitingQty++;
+            if (readyToBeAttended == null){
+                readyToBeAttended = customer;
+                notifyAll();
+            } else {
+                try {
+                    wait();
+                    System.out.println(customer + " is waiting for the barber.");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+        } else {
+            System.out.println(customer + " left without an awesome haircut.");
         }
-
-        return true;
     }
+
+    public synchronized void attendCustomer(){
+        if(readyToBeAttended == null){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println(readyToBeAttended + "got an awesome haircut. Now he's handsome as me.");
+            readyToBeAttended = null;
+            final Random random = new Random(System.currentTimeMillis());
+            try {
+                Thread.sleep(random.nextInt(1300));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            waitingQty--;
+            notifyAll();
+        }
+    }
+
+
 }

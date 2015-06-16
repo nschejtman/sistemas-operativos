@@ -1,3 +1,4 @@
+package tp6
 object Main extends App{
   val pageSize = 4
   val ramSize = 512
@@ -6,9 +7,6 @@ object Main extends App{
   val diskAccessTime = 10
   val pageStayProb = 0.992
 
-  while(true){
-
-  }
 
 
 
